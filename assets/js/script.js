@@ -1,4 +1,4 @@
-const API_KEY = "VZn-Fx2ohpPGHAs_RhP_m6IgxYA";
+const API_KEY = "BOWY2RmqRYfBfyyGtvBzTp_RJOc";
 const API_URL = "https://ci-jshint.herokuapp.com/api";
 const resultsModal = new bootstrap.Modal(document.getElementById("resultsModal"));
 
@@ -38,6 +38,7 @@ async function postForm(e) {
     if (response.ok) {
         displayErrors(data);
     } else {
+        displayException(data);
         throw new Error(data.error);
     }
 
@@ -54,6 +55,7 @@ async function getStatus(e) {
     if (response.ok) {
         displayStatus(data);
     } else {
+        displayException(data);
         throw new Error(data.error);
     }
 
@@ -90,4 +92,17 @@ function displayStatus(data) {
     document.getElementById("results-content").innerHTML = results;
     resultsModal.show();
 
+}
+
+function displayException(data) {
+
+    let heading = `An Exception Occurred`;
+
+    results = `<div>The API returned status code <strong>${data.status_code}</strong></div>`;
+    results += `<div>Error number: <strong>${data.error_no}</strong></div>`;
+    results += `<div>Error text: <strong>${data.error}</strong></div>`;
+
+    document.getElementById("resultsModalTitle").innerText = heading;
+    document.getElementById("results-content").innerHTML = results;
+    resultsModal.show();
 }
